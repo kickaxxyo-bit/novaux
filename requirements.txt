@@ -9,4 +9,4 @@ scikit-learn
 numpy
 pandas
 xgboost
-mistralai
+mistralai==1.9.11

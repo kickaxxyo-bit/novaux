@@ -119,13 +119,15 @@ embedder = SentenceTransformer(EMBED_MODEL)
 print("Loading reranker...")
 reranker = CrossEncoder(RERANK_MODEL)
 
-rag_conn = psycopg2.connect(
-    host="localhost",
-    database="startup_assistant",
-    user="postgres",
-    password="300234",
-    port="5432",
-)
+DATABASE_URL = os.environ["DATABASE_URL"]
+
+if DATABASE_URL.startswith("postgres://"):
+    DATABASE_URL = DATABASE_URL.replace(
+        "postgres://", "postgresql://", 1
+    )
+
+rag_conn = psycopg2.connect(DATABASE_URL)
+rag_cur = rag_conn.cursor()
 rag_cur = rag_conn.cursor()
 from hybrid_retriever import hybrid_retrieve
 
